@@ -1,0 +1,5 @@
+{
+  "checkin": { "sleepHours": 7.5, "mood": 0.75, "social": 0.4 },
+  "metrics": { "energy": 65, "burnoutRisk": 35, "recoveryHrs": 4.5 },
+  "notificationsPerDay": { "before": 156, "after": 23 }
+}
