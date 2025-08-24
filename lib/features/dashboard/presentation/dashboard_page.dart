@@ -1,29 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/di/providers.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final metrics = ref.watch(metricsRepoProvider).latest;
+    final energy = metrics?.energy ?? 65;
+    final sleep = metrics?.recoveryHrs != null
+        ? (8 - metrics!.recoveryHrs).clamp(0, 12)
+        : 7.5; // temp
     return Scaffold(
       appBar: AppBar(title: const Text('Energy Dashboard')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: const [
-          _MetricCard(title: 'Energy Level', valueText: '65%'),
-          SizedBox(height: 12),
-          _MetricCard(title: 'Sleep Quality', valueText: '7.5h'),
-          SizedBox(height: 12),
-          _MetricCard(title: 'Social Battery', valueText: '40%'),
-          SizedBox(height: 12),
-          _MetricCard(title: 'Mood', valueText: '75%'),
-        ],
-      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/checkin'),
         label: const Text('Quick Check‑in'),
         icon: const Icon(Icons.edit),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _MetricCard(title: 'Energy Level', valueText: '$energy%'),
+          const SizedBox(height: 12),
+          _MetricCard(
+              title: 'Sleep Quality',
+              valueText: '${sleep is num ? sleep.toStringAsFixed(1) : sleep}h'),
+          const SizedBox(height: 12),
+          const _MetricCard(title: 'Social Battery', valueText: '40%'),
+          const SizedBox(height: 12),
+          const _MetricCard(title: 'Mood', valueText: '75%'),
+        ],
       ),
     );
   }
