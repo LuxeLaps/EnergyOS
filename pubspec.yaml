@@ -1,0 +1,88 @@
+name: energy_os
+description: Privacy-first energy management & digital wellness app (Android-first, iOS-ready)
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+# Use the current stable Flutter SDK you have installed
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/demo_data.json
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management & routing
+  flutter_riverpod: ^2.5.1
+  go_router: ^14.2.0
+
+  # Local database (choose one: Isar or Drift). Isar is simpler and fast for mobile.
+  #isar: ^4.0.0-dev.14
+  # isar_flutter_libs: ^4.0.0-dev.14
+  # If you prefer Drift, comment Isar lines above and uncomment these:
+  drift: ^2.18.0
+  drift_flutter: ^0.2.2
+  sqlite3_flutter_libs: ^0.5.24
+
+  # Secure storage and device info
+  flutter_secure_storage: ^9.2.2
+  device_info_plus: ^10.1.0
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+  # Media & OCR pipeline
+  image_picker: ^1.1.2
+  camera: ^0.11.0+2
+  # ML Kit OCR via a plugin wrapper; for iOS we’ll add a VisionKit bridge later
+  google_mlkit_text_recognition: ^0.14.0
+
+  # Charts and animations
+  fl_chart: ^0.70.2
+  flutter_animate: ^4.5.0
+
+  # Utilities
+  intl: ^0.19.0
+  collection: ^1.18.0
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+
+  # Platform-specific bridges (method channels)
+  # We’ll create our own channels in android/ and ios/ with platform code; these
+  # packages are lightweight helpers if needed.
+  platform_info: ^4.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.11
+  freezed: ^2.5.7
+  json_serializable: ^6.9.0
+  # Golden tests for pixel checks (optional but handy)
+  golden_toolkit: ^0.15.0
+
+# Optional: flavors via --dart-define; documented in README.
+# Example:
+# flutter run --dart-define=DEMO_MODE=true
+# flutter build apk --release --dart-define=DEMO_MODE=true
+
+# Platform-specific minimums
+# Android: set in android/app/build.gradle (minSdkVersion 24 or higher for ML Kit & CameraX)
+# iOS: set in ios/Podfile (platform :ios, '14.0')
