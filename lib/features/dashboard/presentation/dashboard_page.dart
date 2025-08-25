@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/di/providers.dart';
 
 class DashboardPage extends ConsumerWidget {
@@ -8,17 +8,21 @@ class DashboardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final metrics = ref.watch(metricsRepoProvider).latest;
-    final energy = metrics?.energy ?? 65;
-    final sleep = metrics?.recoveryHrs != null
-        ? (8 - metrics!.recoveryHrs).clamp(0, 12)
-        : 7.5; // temp
+    final repo = ref.watch(metricsRepoProvider);
+    final m = repo.latest;
+
+    final energy = (m?.energy ?? 65).clamp(0, 100);
+    // For demo, show sleep as 7.5h if no check-in yet.
+    final sleepHours = m == null ? 7.5 : (8.0 - (-m.recoveryHrs)).clamp(0, 12);
+    final social = m == null ? 40 : (100 - (m.burnoutRisk / 2)).clamp(0, 100);
+    final mood = m == null ? 75 : (m.energy * 0.9).clamp(0, 100);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Energy Dashboard')),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/checkin'),
-        label: const Text('Quick Check‑in'),
         icon: const Icon(Icons.edit),
+        label: const Text('Quick Check‑in'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -26,12 +30,18 @@ class DashboardPage extends ConsumerWidget {
           _MetricCard(title: 'Energy Level', valueText: '$energy%'),
           const SizedBox(height: 12),
           _MetricCard(
-              title: 'Sleep Quality',
-              valueText: '${sleep is num ? sleep.toStringAsFixed(1) : sleep}h'),
+            title: 'Sleep Quality',
+            valueText: '${sleepHours.toStringAsFixed(1)}h',
+          ),
           const SizedBox(height: 12),
-          const _MetricCard(title: 'Social Battery', valueText: '40%'),
+          _MetricCard(title: 'Social Battery', valueText: '${social.round()}%'),
           const SizedBox(height: 12),
-          const _MetricCard(title: 'Mood', valueText: '75%'),
+          _MetricCard(title: 'Mood', valueText: '${mood.round()}%'),
+          const SizedBox(height: 20),
+          FilledButton(
+            onPressed: () => context.push('/outcomes'),
+            child: const Text('View Outcomes'),
+          ),
         ],
       ),
     );

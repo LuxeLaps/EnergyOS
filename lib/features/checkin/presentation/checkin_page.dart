@@ -92,7 +92,6 @@ class _SliderTile extends StatelessWidget {
     required this.max,
     required this.onChanged,
     this.format,
-    super.key,
   });
 
   @override
