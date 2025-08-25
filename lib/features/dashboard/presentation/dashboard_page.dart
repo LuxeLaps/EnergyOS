@@ -10,6 +10,7 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final latest = ref.watch(metricsRepoProvider.select((r) => r.latest));
+    final budget = ref.watch(energyBudgetServiceProvider).compute(latest);
 
     final energy = (latest?.energy ?? 65).clamp(0, 100);
     final recoveryHrs = latest?.recoveryHrs ?? 2.5;
@@ -86,29 +87,42 @@ class DashboardPage extends ConsumerWidget {
           ),
 
           const SizedBox(height: 12),
-          const SectionHeader(
+          // const SectionHeader(
+          //   title: 'Today’s Energy Budget',
+          //   trailing: AppChip(label: '65% remaining', icon: Icons.trending_up),
+          // ),
+          // // Budget items (static demo; wire to allocator later)
+          // const SuggestionRow(
+          //   icon: Icons.work_outline,
+          //   title: 'Team standup',
+          //   subtitle: '09:00 • −20% energy',
+          //   trailing: Icon(Icons.chevron_right),
+          // ),
+          // const SuggestionRow(
+          //   icon: Icons.rate_review_outlined,
+          //   title: 'Project review',
+          //   subtitle: '14:00 • −15% energy',
+          //   trailing: Icon(Icons.chevron_right),
+          // ),
+          // const SuggestionRow(
+          //   icon: Icons.fitness_center_outlined,
+          //   title: 'Gym workout',
+          //   subtitle: '18:00 • −10% energy',
+          //   trailing: Icon(Icons.chevron_right),
+          // ),
+          SectionHeader(
             title: 'Today’s Energy Budget',
-            trailing: AppChip(label: '65% remaining', icon: Icons.trending_up),
+            trailing: AppChip(
+                label: '${budget.remainingPct}% remaining',
+                icon: Icons.trending_up),
           ),
-          // Budget items (static demo; wire to allocator later)
-          const SuggestionRow(
-            icon: Icons.work_outline,
-            title: 'Team standup',
-            subtitle: '09:00 • −20% energy',
-            trailing: Icon(Icons.chevron_right),
-          ),
-          const SuggestionRow(
-            icon: Icons.rate_review_outlined,
-            title: 'Project review',
-            subtitle: '14:00 • −15% energy',
-            trailing: Icon(Icons.chevron_right),
-          ),
-          const SuggestionRow(
-            icon: Icons.fitness_center_outlined,
-            title: 'Gym workout',
-            subtitle: '18:00 • −10% energy',
-            trailing: Icon(Icons.chevron_right),
-          ),
+          for (final it in budget.items)
+            SuggestionRow(
+              icon: Icons.circle_outlined,
+              title: it.title,
+              subtitle: '${it.timeLabel} • ${it.energyDeltaPct}% energy',
+              trailing: const Icon(Icons.chevron_right),
+            ),
 
           const SizedBox(height: 12),
           const SectionHeader(
