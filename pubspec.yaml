@@ -31,6 +31,7 @@ dependencies:
   # State management & routing
   flutter_riverpod: ^2.5.1
   go_router: ^14.2.0
+  shared_preferences: ^2.5.3
 
   # Local database (choose one: Isar or Drift). Isar is simpler and fast for mobile.
   #isar: ^4.0.0-dev.14
