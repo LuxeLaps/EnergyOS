@@ -1,18 +1,18 @@
-#EnergyOS — Youth Lifestyle Copilot
+# EnergyOS — Youth Lifestyle Copilot
 Privacy‑first energy management and digital wellness app built with Flutter. Users log quick daily check‑ins, get personalized energy metrics, outcomes, and smart rebalancing suggestions, plus a Digital Clutter Detox with mute recommendations. All core analysis runs on‑device.
 
-##Screens
+## Screens
 Dashboard: Energy level, Sleep quality, Social battery, Mood, Burnout risk, Recovery time, Today’s Energy Budget, embedded Quick Check‑in, and Smart Rebalance CTA.
 
 Check‑in: 30‑second sliders for Sleep, Mood, and Social Battery with a single “Update Energy Ledger” action.
 
-###Outcomes: Weekly Burnout Risk (before/after), Recovery Time Gained, Digital Clutter Impact, and Privacy Score.
+### Outcomes: Weekly Burnout Risk (before/after), Recovery Time Gained, Digital Clutter Impact, and Privacy Score.
 
-###Detox: KPIs (screenshots organized, notifications bundled, clutter reduced, time reclaimed), OCR Smart Actions list, and interactive Mute Suggestions with batch actions.
+### Detox: KPIs (screenshots organized, notifications bundled, clutter reduced, time reclaimed), OCR Smart Actions list, and interactive Mute Suggestions with batch actions.
 
-###Settings: Demo Mode toggle (persisted), privacy info, crash reporting stub, reset demo data, version, and licenses.
+### Settings: Demo Mode toggle (persisted), privacy info, crash reporting stub, reset demo data, version, and licenses.
 
-##Tech stack
+## Tech stack
 Flutter (Material 3, Dark theme)
 
 Riverpod for state management and dependency injection
@@ -50,7 +50,7 @@ platform/ … native channel scaffolds (usage, health) to be implemented
 
 ui/ … reusable UI kit (cards, chips, progress, tiles, banner)
 
-##Key concepts
+## Key concepts
 Demo Mode: Renders polished, permission‑free data across screens and is persisted locally. Useful for demos/hackathons and as a fallback when permissions are denied or features aren’t available on device.
 
 Pure domain services: ScoringService and EnergyBudgetService are deterministic (no I/O), making them simple to test and reuse.
